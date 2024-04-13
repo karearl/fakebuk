@@ -1,0 +1,82 @@
+// validateForm.hbs
+
+var registrationFields = [
+    { id: 'firstName', emptyMessage: 'First name is required' },
+    { id: 'lastName', emptyMessage: 'Last name is required' },
+    { id: 'newEmail', emptyMessage: 'Email is required', invalidMessage: 'Invalid email address', validate: validateEmail },
+    { id: 'newPassword', emptyMessage: 'Password is required', invalidMessage: '/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/', validate: validatePassword },
+    { id: 'confirmPassword', emptyMessage: 'Confirm password is required', invalidMessage: 'Passwords do not match.',validate: comparePasswords},
+    { id: 'birthday', emptyMessage: 'Date of birth is required' }
+];
+
+registrationFields.forEach(function(field) {
+    field.touched = false;
+    var inputElement = document.getElementById(field.id);
+    inputElement.addEventListener('input', function() {
+        field.touched = true;
+        validateForm(registrationFields);
+    });
+    inputElement.addEventListener('blur', function() {
+        field.touched = true;
+        validateForm(registrationFields);
+    });
+});
+
+function validateForm(fields) {
+    var isValid = true;
+    var submitButton = document.getElementById('sub');
+    clearErrorMessages();
+
+    for (var i = 0; i < fields.length; i++) {
+        var field = fields[i];
+        var value = document.getElementById(field.id).value;
+
+        if (field.touched) {
+            if (value === '') {
+                displayErrorMessage(field.id + 'Error', field.emptyMessage);
+                isValid = false;
+            } else if (field.validate && !field.validate(value)) {
+                displayErrorMessage(field.id + 'Error', field.invalidMessage);
+                isValid = false;
+            }
+        }
+    }
+
+    submitButton.disabled = !isValid;
+    return isValid;
+}
+
+function clearErrorMessages() {
+    var errorElements = document.getElementsByClassName('error-message');
+    for (var i = 0; i < errorElements.length; i++) {
+        errorElements[i].textContent = '';
+    }
+}
+
+function displayErrorMessage(elementId, message) {
+    var element = document.getElementById(elementId);
+    element.textContent = message;
+    setTimeout(function() {
+        element.textContent = '';
+    }, 3000);
+}
+
+function validateEmail(email) {
+    var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailPattern.test(email);
+}
+
+function validatePassword(password) {
+    var passwordPattern = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+    return passwordPattern.test(password);
+}
+
+function comparePasswords() {
+    var password = document.getElementById('newPassword').value;
+    var confirmPassword = document.getElementById('confirmPassword').value;
+    if (password !== confirmPassword) {
+        displayErrorMessage('confirmPasswordError', 'Passwords do not match');
+        return false;
+    }
+    return true;
+}

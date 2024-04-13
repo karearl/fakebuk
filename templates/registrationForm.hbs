@@ -1,0 +1,66 @@
+<!-- registrationForm.hbs -->
+<div id="registrationFormDiv"
+    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800 text-white px-4 py-6 rounded-lg shadow-md z-50"
+    style="display: none;">
+    <form id="registrationForm" method="POST" action="/register">
+        <div class="space-y-4">
+            <h3 class="text-2xl mb-6 font-medium text-teal-500 tracking-wide">Create an Account</h3>
+            <div class="grid grid-cols-2 gap-x-2">
+                <div style="position: relative;">
+                    <input id="firstName" name="firstName" type="text" placeholder="Jackie"
+                        class="w-full h-10 px-3 mt-1 placeholder-gray-400 bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent " />
+                    <span id="firstNameError" class="text-red-500 text-xs error-message"></span>
+                </div>
+                <div style="position: relative;">
+                    <input id="lastName" name="lastName" type="text" placeholder="Chan"
+                        class="w-full h-10 px-3 mt-1 placeholder-gray-400 bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" />
+                    <span id="lastNameError" class="text-red-500 text-xs error-message"></span>
+                </div>
+            </div>
+            <div style="position: relative;">
+                <input id="newEmail" name="newEmail" type="email" placeholder="Jackie.Chan@live.com"
+                    class="w-full h-10 px-3 mt-1 placeholder-gray-400 bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" />
+                <span id="newEmailError" class="text-red-500 text-xs error-message"></span>
+            </div>
+            <div class="flex space-x-2">
+                <div style="position: relative;" class="w-1/2">
+                    <input minlength="8" id="newPassword" name="newPassword" type="password" placeholder="> password >"
+                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                        oninvalid="this.setCustomValidity('Password length must be at least 8 characters.\nPassword must contain at least one uppercase letter.\nPassword must contain at least one lowercase letter.\nPassword must contain at least one number.')"
+                        oninput="this.setCustomValidity('')"
+                        class="w-full h-10 px-3 mt-1 placeholder-gray-400 bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
+
+                    <span id="newPasswordError" class="text-red-500 text-xs error-message"></span>
+                </div>
+                <div style="position: relative;" class="w-1/2">
+                    <input id="confirmPassword" name="confirmPassword" type="password" placeholder="< confirm <"
+                        class="w-full h-10 px-3 mt-1 placeholder-gray-400 bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" />
+                    <span id="confirmPasswordError" class="text-red-500 text-xs error-message"></span>
+                </div>
+            </div>
+            <div style="position: relative;" class="space-y-2">
+                <label for="birthday" class="block text-sm font-medium text-white sr-only">Date of Birth</label>
+                <input id="birthday" name="birthday" type="date" min="1900-01-01" max="2022-12-31" title="Date of Birth"
+                    class="w-full h-10 px-3 mt-1 placeholder-gray-400 bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" />
+                <span id="birthdayError" class="text-red-500 text-xs error-message"></span>
+            </div>
+            <div>
+                <select id="gender" name="gender"
+                    class="w-full h-10 px-3 mt-1 placeholder-gray-400 bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Insane</option>
+                </select>
+            </div>
+            <div class="flex space-x-2">
+                <button id="sub"
+                    class="inline-flex items-center justify-center w-full h-10 px-4 mt-2 text-sm font-medium text-teal-500 bg-transparent ring-1 ring-gray-500 rounded-md hover:bg-gray-700"
+                    onmouseenter="validateForm(registrationFields);">Sign
+                    Up
+                </button>
+                <a href="javascript:void(0)" onclick="toggleRegistrationForm(); toggleLoginForm()"
+                    class="inline-flex items-center justify-center w-full h-10 px-4 mt-2 text-sm font-medium text-teal-500 bg-transparent ring-1 ring-gray-500 rounded-md hover:bg-gray-700">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
