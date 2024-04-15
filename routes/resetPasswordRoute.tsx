@@ -7,18 +7,12 @@ export async function resetPasswordRoute(req: Request): Promise<Response> {
         const styleTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/style.hbs'), 'utf8'));
         const style = styleTemplate({});
     
-        const resetPasswordFormTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/resetPasswordForm.hbs'), 'utf8'));
+        const resetPasswordFormTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/forms/resetPasswordForm.hbs'), 'utf8'));
         const resetPasswordForm = resetPasswordFormTemplate({});
     
-        const showErrorTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/showError.hbs'), 'utf8'));
-        const showError = showErrorTemplate({});
-    
-        const onLoadTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/onLoad.hbs'), 'utf8'));
-        const onLoad = onLoadTemplate({});
-    
-        const validateFormTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/validateForm.hbs'), 'utf8'));
-        const validateForm = validateFormTemplate({});
-    
+        const resetPasswordTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/scripts/resetPassword.hbs'), 'utf8'));
+        const resetPassword = resetPasswordTemplate({});
+
         const metaTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/meta.hbs'), 'utf8'));
         const meta = metaTemplate({});
     
@@ -36,7 +30,7 @@ export async function resetPasswordRoute(req: Request): Promise<Response> {
             _style_: style,
             _body_: resetPasswordForm,
             _footer_: footer, 
-            _script_: onLoad + showError + validateForm
+            _script_: resetPassword
         });
     
         return new Response(html, { headers: { "Content-Type": "text/html" }, status: 200});

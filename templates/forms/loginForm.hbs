@@ -3,7 +3,7 @@
     <form action="/login" method="POST" class="space-y-4">
         <div>
             <label for="email" class="block text-sm font-medium text-white sr-only">Email</label>
-            <input
+            <input autofocus autocomplete="email"
                 class="mt-1 block w-full rounded-md border border-gray-700 bg-gray-700 text-white px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                 id="email" name="email" type="email" placeholder="Jackie.Chan@live.com" required />
         </div>
@@ -21,8 +21,8 @@
         </div>
     </form>
     <div class="flex space-x-2">
-        <button type="button" onclick="toggleForgotPasswordForm(); toggleLoginForm()" class="inline-flex items-center justify-center w-full h-10 px-4 mt-2 text-sm font-medium text-teal-500 bg-transparent ring-1 ring-gray-500 rounded-md hover:bg-gray-700">Reset Password</button>
-        <a href="javascript:void(0)" onclick="toggleRegistrationForm(); toggleLoginForm()"
+        <button onclick="window.location.href = '/forgotPassword'" type="button" class="inline-flex items-center justify-center w-full h-10 px-4 mt-2 text-sm font-medium text-teal-500 bg-transparent ring-1 ring-gray-500 rounded-md hover:bg-gray-700">Reset Password</button>
+        <a onclick="window.location.href = '/register'" 
             class="inline-flex items-center justify-center w-full h-10 px-4 mt-2 text-sm font-medium text-teal-500 bg-transparent ring-1 ring-gray-500 rounded-md hover:bg-gray-700">
             Sign Up
         </a>

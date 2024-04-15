@@ -2,15 +2,15 @@ import Handlebars = require("handlebars");
 import fs = require("fs");
 import path = require("path");
 
-export async function loginRoute(req: Request): Promise<Response> {
+export async function registrationRoute(req: Request): Promise<Response> {
     const styleTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/style.hbs'), 'utf8'));
     const style = styleTemplate({});
 
-    const loginFormTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/forms/loginForm.hbs'), 'utf8'));
-    const loginForm = loginFormTemplate({});
+    const registrationFormTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/forms/registrationForm.hbs'), 'utf8'));
+    const registrationForm = registrationFormTemplate({});
 
-    const showErrorTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/scripts/showError.hbs'), 'utf8'));
-    const showError = showErrorTemplate({});
+    const checkEmailExists = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/scripts/checkEmailExists.hbs'), 'utf8'));
+    const checkEmailExistsScript = checkEmailExists({});
 
     const metaTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/meta.hbs'), 'utf8'));
     const meta = metaTemplate({});
@@ -25,11 +25,11 @@ export async function loginRoute(req: Request): Promise<Response> {
     const html = layoutTemplate({ 
         _meta_: meta,
         _link_: link,
-        _title_: 'fakebuk - login or sign up', 
+        _title_: 'fakebuk - sign up', 
         _style_: style,
-        _body_: loginForm,
+        _body_: registrationForm,
         _footer_: footer, 
-        _script_: showError
+        _script_: checkEmailExistsScript,
     });
 
     return new Response(html, { headers: { "Content-Type": "text/html" }, status: 200});

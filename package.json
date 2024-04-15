@@ -1,9 +1,11 @@
 {
   "scripts": {
-    "dev": "bun run --hot src/index.tsx",
-    "tests": "bunx jest --detectOpenHandles"
+    "dev": "NODE_ENV=development bun run --hot src/index.tsx",
+    "build": "NODE_ENV=production bun build src/index.tsx",
+    "tests": "NODE_ENV=test jest"
   },
   "dependencies": {
+    "@fullhuman/postcss-purgecss": "^6.0.0",
     "autoprefixer": "^10.4.19",
     "basic-auth": "^2.0.1",
     "bcryptjs": "^2.4.3",

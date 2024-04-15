@@ -1,21 +1,19 @@
 import { Sequelize } from 'sequelize-typescript';
+import { sequelizeOptions } from '../config';
 import { User } from '../models/User';
 import { Op } from 'sequelize';
 import bcrypt = require('bcryptjs');
 import crypto from 'crypto';
 
 export const sequelize = new Sequelize({
-    dialect: 'mysql',
-    host: 'localhost',
-    port: 3306,
-    username: 'root',
-    password: 'q153246Q',
-    database: 'fakebuk',
+    ...sequelizeOptions,
     models: [User]
 });
 
 export const setupDatabase = async (): Promise<Sequelize> => {
+    console.log(`NODE_ENV: ${process.env.NODE_ENV}`)
     if (process.env.NODE_ENV !== 'test') {
+        console.log(`Connecting to database at ${sequelizeOptions.host}`)
         try {
             await sequelize.authenticate();
         } catch (error) {
@@ -24,6 +22,20 @@ export const setupDatabase = async (): Promise<Sequelize> => {
     }
     return sequelize;
 };
+
+export const isTokenExpired = async (token: Date) => {
+    return token < new Date();
+}
+
+export  const sendResetTokenEmail = async (email: string, token: string, expiration: Date) => {
+    const user = await User.findOne({ where: { email: { [Op.eq]: email } } });
+    if (!user) {
+        throw new Error('No user with this email address exists');
+    }
+    console.log('Sending reset token email to:', email);
+    console.log('Reset token:', token);
+    // Send email here
+}
 
 export const generateResetToken = () => {
     return crypto.randomBytes(20).toString('hex');

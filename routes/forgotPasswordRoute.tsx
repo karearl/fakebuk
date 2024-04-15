@@ -2,15 +2,12 @@ import Handlebars = require("handlebars");
 import fs = require("fs");
 import path = require("path");
 
-export async function loginRoute(req: Request): Promise<Response> {
-    const styleTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/style.hbs'), 'utf8'));
-    const style = styleTemplate({});
+export async function forgotPasswordRoute(req: Request): Promise<Response> {
+    const forgotPasswordTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/forms/forgotPasswordForm.hbs'), 'utf8'));
+    const forgotPassword = forgotPasswordTemplate({});
 
-    const loginFormTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/forms/loginForm.hbs'), 'utf8'));
-    const loginForm = loginFormTemplate({});
-
-    const showErrorTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/scripts/showError.hbs'), 'utf8'));
-    const showError = showErrorTemplate({});
+    const forgotPasswordScriptTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/scripts/forgotPassword.hbs'), 'utf8'));
+    const forgotPasswordScript = forgotPasswordScriptTemplate({});
 
     const metaTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/meta.hbs'), 'utf8'));
     const meta = metaTemplate({});
@@ -25,11 +22,11 @@ export async function loginRoute(req: Request): Promise<Response> {
     const html = layoutTemplate({ 
         _meta_: meta,
         _link_: link,
-        _title_: 'fakebuk - login or sign up', 
-        _style_: style,
-        _body_: loginForm,
+        _title_: 'fakebuk - forgot password', 
+        _style_: '',
+        _body_:  forgotPassword,
         _footer_: footer, 
-        _script_: showError
+        _script_: forgotPasswordScript
     });
 
     return new Response(html, { headers: { "Content-Type": "text/html" }, status: 200});
