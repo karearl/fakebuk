@@ -1,0 +1,33 @@
+<!-- profile.hbs -->
+<div>
+    <header class="bg-gray-900 py-6 shadow">
+        <div class="container mx-auto px-6">
+            {{{profile_info}}}
+        </div>
+    </header>
+    <div class="container bg-gray-900 shadow mx-auto px-6 py-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {{#each posts as |post index|}}
+            <div class="bg-gray-800 w-full h-full rounded-lg shadow-md post-card">
+                {{{post}}}
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
+<style>
+    .post-card:nth-child(8n+1), .post-card:nth-child(8n+4), .post-card:nth-child(8n+5) {
+        grid-column: span 2;
+    }
+    .post-card:nth-child(8n+2), .post-card:nth-child(8n+3), .post-card:nth-child(8n+6), .post-card:nth-child(8n+7) {
+        grid-column: span 1;
+    }
+</style>
+<script>
+    window.onload = function () {
+        const postCards = document.querySelectorAll('.post-card');
+        if (postCards.length > 0) {
+            postCards[0].classList.add('lg:col-span-2');
+        }
+    }
+</script>

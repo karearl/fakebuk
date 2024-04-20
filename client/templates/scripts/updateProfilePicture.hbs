@@ -1,0 +1,20 @@
+<!-- updateProfilePicture.hbs -->
+<script>
+    function updateProfilePicture() {
+        const url = prompt('Please enter the new profile picture URL:');
+        if (url) {
+            $.ajax({
+                url: '/updateProfilePicture',
+                type: 'POST',
+                data: JSON.stringify({ url: url }),
+                contentType: 'application/json',
+                success: function () {
+                    location.reload();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error updating profile picture:', textStatus, errorThrown);
+                }
+            });
+        }
+    }
+</script>

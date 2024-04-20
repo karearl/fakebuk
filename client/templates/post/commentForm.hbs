@@ -1,0 +1,13 @@
+<!-- commentForm.hbs -->
+{{#if profile_picture}}
+<img src="{{{profile_picture}}}" alt="{{{user_initials}}}" class="rounded-full w-10 h-10 object-cover border border-gray-600">
+{{else}}
+<span class="relative flex shrink-0 overflow-hidden rounded-full w-10 h-10 bg-center bg-cover border-2 border-gray-600" style="background-image: url('https://via.placeholder.com/40');">
+    <span class="absolute inset-0 flex items-center justify-center rounded-full bg-muted bg-opacity-50">{{{user_initials}}}</span>
+</span>
+{{/if}}
+<div class="flex-1">
+    <textarea
+        class="flex rounded-md border border-gray-600 bg-gray-800 text-white px-3 py-2 text-sm ring-offset-background placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full min-h-[100px]"
+        placeholder="Write a comment..."></textarea>
+</div>

@@ -1,0 +1,60 @@
+<!-- profileInfo.hbs -->
+<div class="w-full p-6 bg-gray-800 shadow-md text-white" data-v0-t="card">
+    <div class="flex items-center gap-4">
+        <span class="relative flex h-16 w-16 shrink-0 overflow-hidden rounded-full border-2 border-gray-600 cursor-pointer" onclick="updateProfilePicture()" title="Click to change picture">
+            {{#if user_image}}
+            <img src="{{{user_image}}}" alt="{{{user_fullname}}}" class="w-full h-full object-cover rounded-full cursor-pointer">
+            {{else}}
+            <span class="flex h-full w-full items-center justify-center rounded-full bg-muted cursor-pointer">{{{user_initials}}}</span>
+            {{/if}}
+        </span>
+        <div>
+            <h3 class="text-lg font-semibold">{{{user_fullname}}}</h3>
+            <p class="text-sm text-gray-400">
+                <a href="/users/{{{username}}}" class="hover:underline">@{{{username}}}</a>
+            </p>
+        </div>
+        <a href="/logout" class="ml-auto text-gray-400 hover:text-gray-500 text-sm font-medium py-2 px-4 rounded ring-1 ring-gray-600 hover:bg-gray-700">Logout</a>
+    </div>
+    <div class="mt-4">
+        <p class="text-gray-400">{{{user_bio}}}</p>
+    </div>
+    <div class="mt-6 flex items-center justify-between">
+        {{#if user_followers}}
+        <div class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="w-4 h-4 text-gray-500">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span class="text-sm text-gray-500">{{{user_followers}}} Followers</span>
+        </div>
+        {{/if}}
+        {{#if user_comments}}
+        <div class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16" id="comment">
+                <path fill="#212121"
+                    d="M1 4.5C1 3.11929 2.11929 2 3.5 2H12.5C13.8807 2 15 3.11929 15 4.5V9.5C15 10.8807 13.8807 12 12.5 12H8.68787L5.62533 14.6797C4.99168 15.2342 4 14.7842 4 13.9422V12H3.5C2.11929 12 1 10.8807 1 9.5V4.5ZM3.5 3C2.67157 3 2 3.67157 2 4.5V9.5C2 10.3284 2.67157 11 3.5 11H5V13.8981L8.31213 11H12.5C13.3284 11 14 10.3284 14 9.5V4.5C14 3.67157 13.3284 3 12.5 3H3.5Z">
+                </path>
+            </svg>
+            <span class="text-sm text-gray-500">{{{user_comments}}} Comments</span>
+        </div>
+        {{/if}}
+        {{#if user_following}}
+        <div class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="w-4 h-4 text-gray-500">
+                <path d="M3 7V5c0-1.1.9-2 2-2h2"></path>
+                <path d="M17 3h2c1.1 0 2 .9 2 2v2"></path>
+                <path d="M21 17v2c0 1.1-.9 2-2 2h-2"></path>
+                <path d="M7 21H5c-1.1 0-2-.9-2-2v-2"></path>
+                <rect width="7" height="5" x="7" y="7" rx="1"></rect>
+                <rect width="7" height="5" x="10" y="12" rx="1"></rect>
+            </svg>
+            <span class="text-sm text-gray-500">{{{user_following}}} Following</span>
+        </div>
+        {{/if}}
+    </div>
+</div>

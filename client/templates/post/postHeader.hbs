@@ -1,0 +1,70 @@
+<!-- postHeader.hbs -->
+<div class="flex items-start gap-4 text-white mb-4">
+    {{#if profile_picture}}
+    <img src="{{{profile_picture}}}" alt="{{{user_initials}}}"
+        class="rounded-full w-10 h-10 object-cover border-4 border-gray-600">
+    {{else}}
+    <span
+        class="relative flex shrink-0 overflow-hidden rounded-full w-10 h-10 bg-center bg-cover border-4 border-gray-600"
+        style="background-image: url('https://via.placeholder.com/40');">
+        <span
+            class="absolute inset-0 flex items-center justify-center rounded-full bg-muted bg-opacity-50">{{{user_initials}}}</span>
+    </span>
+    {{/if}}
+    <div>
+        <div class="font-semibold">{{{user_fullname}}}</div>
+        <div class="text-sm text-gray-400">
+            <a href="/users/{{{username}}}" class="hover:underline font-bold">@{{{username}}}</a>
+        </div>
+    </div>
+</div>
+<p class="text-gray-400 mb-4">{{{post_description}}}</p>
+{{#if post_images}}
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-auto gap-4 mt-4">
+    {{#each post_images as |image|}}
+    <div>
+        <img src="{{{image}}}" alt="Image from post {{{post_title}}}"
+            class="w-full h-auto object-cover rounded-lg cursor-pointer" data-image="{{{image}}}"
+            onclick="openImage(this)" role="button" tabindex="0">
+    </div>
+    {{/each}}
+</div>
+<div id="imageModal" class="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50 hidden" onclick="closeImage()">
+    <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+        <img id="modalImage" src="https://via.placeholder.com/300" alt="" class="w-full h-auto rounded-lg cursor-pointer" onclick="toggleZoom()">
+    </div>
+</div>
+<script>
+    function openImage(imgElement) {
+        const image = imgElement.dataset.image;
+        const modalImage = document.getElementById('modalImage');
+        modalImage.src = image;
+        document.getElementById('imageModal').style.display = 'flex';
+    }
+
+    function closeImage() {
+        document.getElementById('imageModal').style.display = 'none';
+    }
+
+    function toggleZoom() {
+        const modalImage = document.getElementById('modalImage');
+        if (modalImage.style.maxWidth !== '100%') {
+            modalImage.style.maxWidth = '100%';
+            modalImage.style.maxHeight = '100%';
+        } else {
+            modalImage.style.maxWidth = '80vw';
+            modalImage.style.maxHeight = '80vh';
+        }
+    }
+</script>
+<style>
+    .grid-cols-auto {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .grid-cols-auto img {
+        height: 200px;
+        object-fit: cover;
+    }
+</style>
+{{/if}}

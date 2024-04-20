@@ -52,4 +52,9 @@ export class User extends Model {
     @AllowNull(true)
     @Column({ type: DataType.TIME, defaultValue: null})
     last_password_reset_at?: Date;
+
+    @AllowNull(true)
+    @Column({ type: DataType.STRING(255), defaultValue: null })
+    profile_picture?: string;
+    
 }

@@ -1,13 +1,20 @@
 import { Sequelize } from 'sequelize-typescript';
 import { sequelizeOptions } from '../config';
-import { User } from '../models/User';
+import { User } from './models/User';
+import { Post } from './models/Post';
+import { Image } from './models/Image';
+import { Comment } from './models/Comment';
+import { PostLike } from './models/PostLike';
+import { CommentLike } from './models/CommentLike';
 import { Op } from 'sequelize';
 import bcrypt = require('bcryptjs');
 import crypto from 'crypto';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+
 
 export const sequelize = new Sequelize({
     ...sequelizeOptions,
-    models: [User]
+    models: [User, Post, Image, Comment, PostLike, CommentLike]
 });
 
 export const setupDatabase = async (): Promise<Sequelize> => {
@@ -110,13 +117,14 @@ export const registerUser = async (email: string, password: string, firstname: s
             first_name: firstname,
             last_name: lastname,
             date_of_birth: birthdate,
-            gender: gender
+            gender: gender,
+            created_at: new Date(),
+            updated_at: new Date()
         });
     } catch (error) {
         console.error('Error during registration:', error);
     }
 };
-
 export const checkEmailExists = async (email: string) => {
     return User.findOne({
         where: {
@@ -125,6 +133,24 @@ export const checkEmailExists = async (email: string) => {
     });
 }
 
+export const updateProfilePicture = async (token: string, url: string) => {
+    try {
+        const secret = process.env.JWT_SECRET as string;
+        const decoded: JwtPayload = jwt.verify(token, secret) as JwtPayload;
+        const userId = decoded.id;
+
+        const user = await User.findByPk(userId);
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        user.profile_picture = url;
+        await user.save();
+    } catch (error) {
+        console.error('Error updating profile picture:', error);
+        throw error;
+    }
+};
 
 export const authenticateUser = async (email: string, password: string) => {
     const user = await User.findOne({
@@ -157,6 +183,16 @@ export const getUserByUsername = async (username: string) => {
     }
     catch (error) {
         console.error(`Error fetching user with username ${username}:`, error);
+        throw error;
+    }
+}
+
+export const getPostsForUser = async (user: User) => {
+    try {
+
+    }
+    catch (error) {
+        console.error(`Error fetching posts for ${user.username}`, error);
         throw error;
     }
 }

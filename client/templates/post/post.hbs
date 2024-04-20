@@ -1,0 +1,20 @@
+<!-- post.hbs -->
+<div class="flex flex-col bg-gray-800 shadow-lg rounded-lg overflow-hidden text-white w-full h-full mx-auto">
+    <div class="p-4">
+        {{{post_header}}}
+    </div>
+    <div class="flex items-center justify-between px-4 py-2 border-t border-gray-600">
+        {{{post_actions}}}
+    </div>
+    <div class="p-4 space-y-2 flex flex-col flex-grow h-full">
+        <div class="flex items-start gap-2 mb-4">
+            {{{comment_form}}}
+        </div>
+        <div class="flex-grow overflow-auto">
+            <h3 class="font-semibold text-lg">Comments</h3>
+            {{#each comments as |comment|}}
+            {{{comment}}}
+            {{/each}}
+        </div>
+    </div>
+</div>
