@@ -1,7 +1,7 @@
 import Handlebars = require("handlebars");
 import fs = require("fs");
 import path = require("path");
-import { addComment, addPost, deleteAllComments, deleteAllPosts, getCommentsForPost, getPostsForUser, getUserById, getUserByUsername } from "../database";
+import { addComment, addPost, deleteAllComments, deleteAllPosts, getAllPosts, getCommentsForPost, getPostsForUser, getUserById, getUserByUsername } from "../database";
 import { Post } from "../models/Post";
 import Comment from "../models/Comment";
 
@@ -26,14 +26,16 @@ export async function profileRoute(req: Request): Promise<Response> {
     let profile_picture: string = 'https://via.placeholder.com/40';
     let initials: string = 'JD';
     let posts: Post[] = [];
+    let all_posts: Post[] = [];
     let comments: Comment[] = [];
+    let all_comments: {}[] = [];
     let postHeader1 = {}
     let postTemplate1 = {}
     let commentTemplate1 = {}
-
+    let newPostForm = '';
     const allPosts: {}[] = [];
     const allComments = [];
-    
+
     const buttons = [
         { icon: 'heart', label: 'Like', path: 'M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z' },
         { icon: 'message-circle', label: 'Comment', path: 'm3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z' },
@@ -41,28 +43,43 @@ export async function profileRoute(req: Request): Promise<Response> {
     ];
 
     if (user) {
-        name = `${user?.first_name} ${user?.last_name}`;
-        profile_picture = user.profile_picture as string;
-        initials = `${user?.first_name?.charAt(0) ?? ''}${user?.last_name?.charAt(0) ?? ''}`.toUpperCase();
+        name = `${user.first_name} ${user.last_name}`;
+        profile_picture = user.profile_picture ?? 'https://via.placeholder.com/40';
+        initials = `${user.first_name?.charAt(0) ?? ''}${user.last_name?.charAt(0) ?? ''}`.toUpperCase();
+
+
         posts = await getPostsForUser(user);
-        for (const post of posts) {
-            postHeader1 = { profile_picture: profile_picture, user_initials: initials, user_fullname: name, username: user.username, post_description: post.content}
+        all_posts = await getAllPosts();
+
+        posts.forEach(async (post) => {
             comments = await getCommentsForPost(post);
-            for (const comment of comments) {
+            allPosts.push(postTemplate(post));
+            postHeader1 = { user_picture: profile_picture, user_initials: initials, user_fullname: name, post_created_at: post.created_at.toUTCString() }
+            
+            comments.forEach(async (comment) => {
                 const commenter = await getUserById(comment.user_id);
                 if (!commenter) {
-                    continue;
+                    return;
                 }
                 commentTemplate1 = { commenter_picture: commenter.profile_picture, commenter_initials: `${commenter.first_name?.charAt(0) ?? ''}${commenter.last_name?.charAt(0) ?? ''}`.toUpperCase(), commenter_fullname: `${commenter.first_name} ${commenter.last_name}`, comment: comment.content, commented_at: comment.created_at.toUTCString() }
-                allComments.push(commentTemplate(commentTemplate1));
-            }
-            postTemplate1 = { post_header: postHeaderTemplate(postHeader1), post_actions: postactionsTemplate({ buttons: buttons }), comments: allComments, comment_form: commentFormTemplate({ user_initials: initials, profile_picture: profile_picture }) }
-            allPosts.push(postTemplate(postTemplate1));
-        }
+                all_comments.push(commentTemplate(commentTemplate1));
+            });
+        });
+
+        all_posts.forEach(async (post) => {
+            comments = await getCommentsForPost(post);
+            comments.forEach(async (comment) => {
+                const commenter = await getUserById(comment.user_id);
+                if (!commenter) {
+                    return;
+                }
+                commentTemplate1 = { commenter_picture: commenter.profile_picture, commenter_initials: `${commenter.first_name?.charAt(0) ?? ''}${commenter.last_name?.charAt(0) ?? ''}`.toUpperCase(), commenter_fullname: `${commenter.first_name} ${commenter.last_name}`, comment: comment.content, commented_at: comment.created_at.toUTCString() }
+                all_comments.push(commentTemplate(commentTemplate1));
+            });
+        });
     } else {
         username = 'jhindeu4'
     }
-    const newPostForm = newPostFormTemplate({});
 
 
     const profileInfo = profileInfoTemplate({ user_image: profile_picture, user_initials: initials, user_bio: 'This is a bio', user_fullname: name, username: username, user_location: 'Somewhere' });

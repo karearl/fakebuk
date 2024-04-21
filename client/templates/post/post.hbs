@@ -10,11 +10,13 @@
         <div class="flex items-start gap-2 mb-4">
             {{{comment_form}}}
         </div>
+        {{#if comments}}
         <div class="flex-grow overflow-auto">
             <h3 class="font-semibold text-lg">Comments</h3>
             {{#each comments as |comment|}}
             {{{comment}}}
             {{/each}}
         </div>
+        {{/if}}
     </div>
 </div>

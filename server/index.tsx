@@ -1,13 +1,11 @@
 import {
     setupDatabase,
-    getAllUsers,
     registerUser,
     getUserById,
     checkPassword,
     getUserByEmail,
     checkEmailExists,
     getUserByUsername,
-    getSafeUserByUsername,
     resetPassword,
     generateResetToken,
     storeResetToken,
@@ -16,6 +14,7 @@ import {
     sendResetTokenEmail,
     isTokenExpired,
     updateProfilePicture,
+    addPost,
 } from "./database";
 
 import jwt, { JwtPayload } from 'jsonwebtoken';
@@ -196,6 +195,7 @@ export const server = Bun.serve({
 
             if (path === "/register") {
                 try {
+
                     const data = await req.text();
                     const params = new URLSearchParams(data);
                     const firstName = params.get("firstName");
@@ -205,17 +205,19 @@ export const server = Bun.serve({
                     const birthDate = params.get("birthday");
                     const gender = params.get("gender");
                     
+                    
                     if (!firstName || !lastName || !email || !password || !birthDate || gender === null) {
                         return registrationRoute(req);
                     }
 
-                    // Check if email already exists
                     const emailExists = await checkEmailExists(email as string);
                     if (emailExists) {
                         return Response.redirect("/register", 303);
                     }
 
-                    // Register user
+
+
+                    console.log('Registering user with email: ', email);
                     await registerUser(
                         email,
                         password,
@@ -226,6 +228,7 @@ export const server = Bun.serve({
                     );
 
                     const user = await getUserByEmail(email as string);
+                    console.log('User registered: ', user?.username);
                     if (user) {
                         const headers = new Headers();
                         const userData = await getUserByUsername(user.username);
@@ -266,6 +269,29 @@ export const server = Bun.serve({
                     console.error('Error updating profile picture:', error);
                     return new Response('Error updating profile picture', { status: 500 });
                 }
+            }
+
+            if (path === "/post") {
+                const cookies = req.headers.get("Cookie");
+                const items = cookies ? cookies.split('; ') : [];
+                const localCookies: { [key: string]: string } = {};
+                items.forEach((item) => {
+                    const [name, value] = item.split('=');
+                    localCookies[name] = value;
+                });
+                const { content } = await req.json();
+                const token = localCookies.token;
+                if (!token) {
+                    return new Response('Token cookie missing', { status: 401 });
+                }
+                try {
+                    await addPost(token, content);
+                    return new Response(null, { status: 204 });
+                } catch (error) {
+                    console.error('Error adding post:', error);
+                    return new Response('Error adding post', { status: 500 });
+                }
+
             }
         }        
 

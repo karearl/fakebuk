@@ -201,7 +201,23 @@ export const getPostsForUser = async (user: User) => {
     }
 }
 
-export const addPost = async (user: User, content: string) => {
+export const getAllPosts = async () => {
+    try {
+        return Post.findAll();
+    }
+    catch (error) {
+        console.error('Error fetching all posts:', error);
+        throw error;
+    }
+}
+
+export const addPost = async (token: string, content: string) => {
+    const secret = process.env.JWT_SECRET as string;
+    const decoded: JwtPayload = jwt.verify(token, secret) as JwtPayload;
+    const user = await User.findByPk(decoded.id);
+    if (!user) {
+        throw new Error('User not found');
+    }
     return Post.create({
         user_id: user.user_id,
         content: content,

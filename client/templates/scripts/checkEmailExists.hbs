@@ -2,7 +2,7 @@
 <script>
     $("#newEmail").on('keyup', function () {
         var email = $(this).val();
-        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email || !emailRegex.test(email)) { return; }
         $.ajax({
             url: "/checkEmailExists",

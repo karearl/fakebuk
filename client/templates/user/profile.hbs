@@ -9,6 +9,8 @@
         <section class="pb-6">
             {{{new_post_form}}}
         </section>
+        {{#if posts}}
+        <!-- posts -->
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {{#each posts as |post index|}}
             <article class="bg-gray-800 w-full h-full rounded-lg shadow-md post-card">
@@ -16,6 +18,17 @@
             </article>
             {{/each}}
         </section>
+        {{/if}}
+        {{#if all_posts}}
+        <!-- all_posts -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {{#each all_posts as |post index|}}
+            <article class="bg-gray-800 w-full h-full rounded-lg shadow-md post-card">
+                {{{post}}}
+            </article>
+            {{/each}}
+        </section>
+        {{/if}}
     </main>
 </div>
 
