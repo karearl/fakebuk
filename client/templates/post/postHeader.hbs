@@ -2,11 +2,11 @@
 <div class="flex items-start gap-4 text-white mb-4">
     {{#if profile_picture}}
     <img src="{{{profile_picture}}}" alt="{{{user_initials}}}"
-        class="rounded-full w-10 h-10 object-cover border-4 border-gray-600">
+        class="rounded-full w-10 h-10 object-cover border-2 border-gray-600">
     {{else}}
     <span
         class="relative flex shrink-0 overflow-hidden rounded-full w-10 h-10 bg-center bg-cover border-4 border-gray-600"
-        style="background-image: url('https://via.placeholder.com/40');">
+        style="background-image: url('https://via.placeholder.com/64');">
         <span
             class="absolute inset-0 flex items-center justify-center rounded-full bg-muted bg-opacity-50">{{{user_initials}}}</span>
     </span>
@@ -29,9 +29,11 @@
     </div>
     {{/each}}
 </div>
-<div id="imageModal" class="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50 hidden" onclick="closeImage()">
+<div id="imageModal" class="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50 hidden"
+    style="z-index: 9999;" onclick="closeImage(event)">
     <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-        <img id="modalImage" src="https://via.placeholder.com/300" alt="" class="w-full h-auto rounded-lg cursor-pointer" onclick="toggleZoom()">
+        <img id="modalImage" alt=""
+            class="rounded-lg cursor-pointer" onclick="toggleZoom()">
     </div>
 </div>
 <script>
@@ -42,8 +44,11 @@
         document.getElementById('imageModal').style.display = 'flex';
     }
 
-    function closeImage() {
-        document.getElementById('imageModal').style.display = 'none';
+    function closeImage(event) {
+        const imageModal = document.getElementById('imageModal');
+        if (event.target === imageModal) {
+            imageModal.style.display = 'none';
+        }
     }
 
     function toggleZoom() {
@@ -55,6 +60,8 @@
             modalImage.style.maxWidth = '80vw';
             modalImage.style.maxHeight = '80vh';
         }
+
+        console.log(modalImage.style.maxWidth, modalImage.style.maxHeight)
     }
 </script>
 <style>

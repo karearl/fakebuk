@@ -1,7 +1,7 @@
 <!-- comment.hbs -->
 <div class="text-sm flex gap-4 text-white">
     {{#if commenter_picture}}
-    <img src="{{{commenter_picture}}}" alt="{{{commenter_initials}}}" class="rounded-full w-10 h-10 border-2 border-gray-600">
+    <img src="{{{commenter_picture}}}" alt="{{{commenter_initials}}}" class="rounded-full w-10 h-10 object-cover border-2 border-gray-600">
     {{else}}
     <span class="relative flex shrink-0 overflow-hidden rounded-full w-10 h-10 bg-center bg-cover border-2 border-gray-600" style="background-image: url('https://via.placeholder.com/40);">
         <span class="absolute inset-0 flex items-center justify-center rounded-full bg-muted bg-opacity-50">{{{commenter_initials}}}</span>

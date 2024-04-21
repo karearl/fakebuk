@@ -1,7 +1,7 @@
 import { Table, Column, Model, PrimaryKey, AutoIncrement, DataType, ForeignKey } from 'sequelize-typescript';
 import { Post } from './Post';
 
-@Table({ tableName: 'images', createdAt: 'created_at' })
+@Table({ tableName: 'images', createdAt: 'created_at', updatedAt: false})
 export class Image extends Model {
     @PrimaryKey
     @AutoIncrement

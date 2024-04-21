@@ -2,7 +2,7 @@ import { Table, Column, Model, PrimaryKey, DataType, ForeignKey } from 'sequeliz
 import { Post } from './Post';
 import { User } from './User';
 
-@Table({ tableName: 'post_likes' })
+@Table({ tableName: 'post_likes', createdAt: false, updatedAt: false})
 export class PostLike extends Model {
     @PrimaryKey
     @ForeignKey(() => User)

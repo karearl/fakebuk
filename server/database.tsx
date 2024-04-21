@@ -189,10 +189,83 @@ export const getUserByUsername = async (username: string) => {
 
 export const getPostsForUser = async (user: User) => {
     try {
-
+        return Post.findAll({
+            where: {
+                user_id: user.user_id
+            }
+        });
     }
     catch (error) {
         console.error(`Error fetching posts for ${user.username}`, error);
+        throw error;
+    }
+}
+
+export const addPost = async (user: User, content: string) => {
+    return Post.create({
+        user_id: user.user_id,
+        content: content,
+        created_at: new Date()
+    });
+}
+
+export const getPostById = async (id: number) => {
+    try {
+        return await Post.findOne({
+            where: {
+                post_id: id
+            }
+        });
+    }
+    catch (error) {
+        console.error(`Error fetching post with id ${id}:`, error);
+        throw error;
+    }
+}
+
+export const addComment = async (user: User, post: Post, content: string) => {
+    return Comment.create({
+        user_id: user.user_id,
+        post_id: post.post_id,
+        content: content,
+        created_at: new Date()
+    });
+}
+
+export const getCommentsForPost = async (post: Post) => {
+    try {
+        return Comment.findAll({
+            where: {
+                post_id: post.post_id
+            }
+        });
+    }
+    catch (error) {
+        console.error(`Error fetching comments for post ${post.post_id}`, error);
+        throw error;
+    }
+}
+
+export const deleteAllPosts = async () => {
+    try {
+        return Post.destroy({
+            where: {}
+        });
+    }
+    catch (error) {
+        console.error('Error deleting all posts:', error);
+        throw error;
+    }
+}
+
+export const deleteAllComments = async () => {
+    try {
+        return Comment.destroy({
+            where: {}
+        });
+    }
+    catch (error) {
+        console.error('Error deleting all comments:', error);
         throw error;
     }
 }

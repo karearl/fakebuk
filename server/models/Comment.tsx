@@ -3,7 +3,7 @@ import { Post } from './Post';
 import { User } from './User';
 
 
-@Table({ tableName: 'comments', createdAt: 'created_at' })
+@Table({ tableName: 'comments', createdAt: 'created_at', updatedAt: false})
 export class Comment extends Model {
     @PrimaryKey
     @AutoIncrement
