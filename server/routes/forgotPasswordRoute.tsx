@@ -3,22 +3,23 @@ import fs = require("fs");
 import path = require("path");
 
 export async function forgotPasswordRoute(req: Request): Promise<Response> {
-    const forgotPasswordTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/forms/forgotPasswordForm.hbs'), 'utf8'));
+    const forgotPasswordTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../../client/templates/forms/forgotPasswordForm.hbs'), 'utf8'));
     const forgotPassword = forgotPasswordTemplate({});
 
-    const forgotPasswordScriptTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/scripts/forgotPassword.hbs'), 'utf8'));
+    const forgotPasswordScriptTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../../client/templates/scripts/forgotPassword.hbs'), 'utf8'));
     const forgotPasswordScript = forgotPasswordScriptTemplate({});
 
-    const metaTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/meta.hbs'), 'utf8'));
+    const metaTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../../client/templates/meta.hbs'), 'utf8'));
     const meta = metaTemplate({});
 
-    const linkTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/link.hbs'), 'utf8'));
+    const linkTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../../client/templates/link.hbs'), 'utf8'));
     const link = linkTemplate({});
 
-    const footerTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/footer.hbs'), 'utf8'));
-    const footer = footerTemplate({});
-
-    const layoutTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../templates/layout.hbs'), 'utf8'));
+    var handlebars = require('handlebars');
+    var footer = fs.readFileSync(path.resolve(__dirname, '../../client/templates/partials/footer.hbs'), 'utf8');
+    handlebars.registerPartial('footer', footer);
+    
+    const layoutTemplate = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../../client/templates/layout.hbs'), 'utf8'));
     const html = layoutTemplate({ 
         _meta_: meta,
         _link_: link,
