@@ -1,9 +1,15 @@
 <!-- style.hbs -->
 <style>
-    .error-message {
-        position: absolute;
-        bottom: -20px;
-        left: 0;
-        height: 20px;
-    }
+    {{#if loginFormDiv}}
+    {{> loginFormDiv}}
+    {{/if}}
+    {{#if registrationFormDiv}}
+    {{> registrationFormDiv}}
+    {{/if}}
+    {{#if forgotPasswordFormDiv}}
+    {{> forgotPasswordFormDiv}}
+    {{/if}}
+    {{#if resetPasswordFormDiv}}
+    {{> resetPasswordFormDiv}}
+    {{/if}}
 </style>

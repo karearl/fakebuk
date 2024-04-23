@@ -1,5 +1,15 @@
 <!-- onLoad.hbs -->
 <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.documentElement.classList.add('dark');
+    }
+
+    const toggleButton = document.getElementById('dark-mode-toggle');
+    toggleButton.addEventListener('click', function () {
+        const isDarkMode = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('darkMode', isDarkMode);
+    });
+
     function redirectToSignUp() {
         window.location.href = "/register";
     }

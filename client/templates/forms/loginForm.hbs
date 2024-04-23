@@ -1,30 +1,15 @@
-<!-- loginForm.hbs -->
-<div id="loginFormDiv" class="bg-gray-800 text-white rounded-lg shadow-md p-4 w-full max-w-md absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2" style="display: block;">
-    <form action="/login" method="POST" class="space-y-4">
+<!-- lofinForm.hbs -->
+<div id="loginFormDiv">
+    <form id="loginForm" class="form" method="POST" action="/login">
+        <h3>Log In</h3>
+        {{> formField id="email" label="Email" name="email" type="email" placeholder="Jackie.Chan@live.com" autocomplete="email" required=true autofocus=true}}
+        {{> formField id="password" label="Password" name="password" type="password" placeholder="*******************" autocomplete="current-password" required=true}}
         <div>
-            <label for="email" class="block text-sm font-medium text-white sr-only">Email</label>
-            <input autofocus autocomplete="email"
-                class="mt-1 block w-full rounded-md border border-gray-700 bg-gray-700 text-white px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                id="email" name="email" type="email" placeholder="Jackie.Chan@live.com" required />
-        </div>
-        <div>
-            <label for="password" class="block text-sm font-medium text-white sr-only">Password</label>
-            <input
-                class="mt-1 block w-full rounded-md border border-gray-700 bg-gray-700 text-white px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                id="password" name="password" type="password" placeholder="**********************" required />
-        </div>
-        <div class="flex space-x-4 items-center">
-            <button
-                class="inline-flex items-center justify-center w-full h-10 px-4 mt-2 text-sm font-medium text-teal-500 bg-transparent ring-1 ring-gray-500 rounded-md hover:bg-gray-700">
-                Log In
-            </button>
+            <button>Log In</button>
         </div>
     </form>
-    <div class="flex space-x-2">
-        <button onclick="window.location.href = '/forgotPassword'" type="button" class="inline-flex items-center justify-center w-full h-10 px-4 mt-2 text-sm font-medium text-teal-500 bg-transparent ring-1 ring-gray-500 rounded-md hover:bg-gray-700">Reset Password</button>
-        <a onclick="window.location.href = '/register'" 
-            class="inline-flex items-center justify-center w-full h-10 px-4 mt-2 text-sm font-medium text-teal-500 bg-transparent ring-1 ring-gray-500 rounded-md hover:bg-gray-700">
-            Sign Up
-        </a>
+    <div>
+        {{> button href='/forgotPassword' text='Forgot Password?'}}
+        {{> button href='/register' text='Don\'t have an account? Sign Up'}}
     </div>
 </div>

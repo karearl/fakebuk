@@ -1,13 +1,46 @@
 <!-- commentForm.hbs -->
 {{#if profile_picture}}
-<img src="{{{profile_picture}}}" alt="{{{user_initials}}}" class="rounded-full w-10 h-10 object-cover border-2 border-gray-600">
+<img src="{{{profile_picture}}}" alt="{{{user_initials}}}">
 {{else}}
-<span class="relative flex shrink-0 overflow-hidden rounded-full w-10 h-10 bg-center bg-cover border-2 border-gray-600" style="background-image: url('https://via.placeholder.com/40');">
-    <span class="absolute inset-0 flex items-center justify-center rounded-full bg-muted bg-opacity-50">{{{user_initials}}}</span>
+<span style="background-image: url('https://via.placeholder.com/40');">
+    <span>{{{user_initials}}}</span>
 </span>
 {{/if}}
-<div class="flex-1">
-    <textarea
-        class="flex rounded-md border border-gray-600 bg-gray-800 text-white px-3 py-2 text-sm ring-offset-background placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full min-h-[100px]"
-        placeholder="Write a comment..."></textarea>
+<div>
+    <textarea id="newCommentTextarea-{{{post_id}}}-{{{comment_counter}}}" placeholder="Write a comment..."></textarea>
 </div>
+<script>
+    (function() {
+    const textareas = document.querySelectorAll('textarea[id^="newCommentTextarea"]');
+        textareas.forEach(textarea => {
+            textarea.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault();
+                    const newCommentContent = event.target.value;
+                    if (newCommentContent.trim() !== '') {
+                        fetch('/comment', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'text/plain',
+                            },
+                            body: JSON.stringify({
+                                content: newCommentContent,
+                                userId: {{{user_id}}},
+                                postId: {{{post_id}}}
+                            }),
+                        }).then((response) => {
+                            if (response.ok) {
+                                event.target.value = '';
+                                window.location.reload();
+                                return response.json();
+                            }
+                            throw new Error('Failed to send POST request');
+                        }).catch((error) => {
+                            console.error('Failed to send POST request:', error);
+                        });
+                    }
+                }
+            });
+        });
+    })();
+</script>

@@ -1,19 +1,21 @@
 <!-- profile.hbs -->
 <div>
-    <header class="bg-gray-900 pt-6 shadow">
-        <div class="container mx-auto px-6">
+    <header>
+        <div>
             {{{profile_info}}}
         </div>
     </header>
-    <main class="container bg-gray-900 shadow mx-auto px-6 py-6">
-        <section class="pb-6">
-            {{{new_post_form}}}
+    <main>
+        <section>
+            <div>
+                {{{new_post_form}}}
+            </div>
         </section>
         {{#if posts}}
         <!-- posts -->
-        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <section>
             {{#each posts as |post index|}}
-            <article class="bg-gray-800 w-full h-full rounded-lg shadow-md post-card">
+            <article>
                 {{{post}}}
             </article>
             {{/each}}
@@ -21,9 +23,12 @@
         {{/if}}
         {{#if all_posts}}
         <!-- all_posts -->
-        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <button id="toggleAllPosts">
+            Toggle All Posts
+        </button>
+        <section id="allPostsSection">
             {{#each all_posts as |post index|}}
-            <article class="bg-gray-800 w-full h-full rounded-lg shadow-md post-card">
+            <article>
                 {{{post}}}
             </article>
             {{/each}}
@@ -31,21 +36,16 @@
         {{/if}}
     </main>
 </div>
-
-<style>
-    .post-card:nth-child(8n+1), .post-card:nth-child(8n+4), .post-card:nth-child(8n+5) {
-        grid-column: span 2;
-    }
-    .post-card:nth-child(8n+2), .post-card:nth-child(8n+3), .post-card:nth-child(8n+6), .post-card:nth-child(8n+7) {
-        grid-column: span 1;
-    }
-</style>
-
 <script>
     window.addEventListener('load', function () {
-        const postCards = document.querySelectorAll('.post-card');
-        if (postCards.length > 0) {
-            postCards[0].classList.add('lg:col-span-2');
-        }
+        const toggleAllPostsButton = document.getElementById('toggleAllPosts');
+        const allPostsSection = document.getElementById('allPostsSection');
+        toggleAllPostsButton.addEventListener('click', function () {
+            if (allPostsSection.style.display === 'none') {
+                allPostsSection.style.display = 'grid';
+            } else {
+                allPostsSection.style.display = 'none';
+            }
+        });
     });
 </script>

@@ -10,8 +10,6 @@
             data: JSON.stringify({ email: email }),
             contentType: "application/json",
             success: function (data) {
-                console.log(email, JSON.parse(data));
-
                 if (JSON.parse(data).emailExists) {
                     $("#newEmailError").show();
                     $('#newEmailError').text('This email is already in use.');

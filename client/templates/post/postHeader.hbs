@@ -1,39 +1,32 @@
 <!-- postHeader.hbs -->
-<div class="flex items-start gap-4 text-white mb-4">
+<div>
     {{#if profile_picture}}
-    <img src="{{{profile_picture}}}" alt="{{{user_initials}}}"
-        class="rounded-full w-10 h-10 object-cover border-2 border-gray-600">
+    <img src="{{{profile_picture}}}" alt="{{{user_initials}}}">
     {{else}}
-    <span
-        class="relative flex shrink-0 overflow-hidden rounded-full w-10 h-10 bg-center bg-cover border-4 border-gray-600"
-        style="background-image: url('https://via.placeholder.com/64');">
-        <span
-            class="absolute inset-0 flex items-center justify-center rounded-full bg-muted bg-opacity-50">{{{user_initials}}}</span>
+    <span style="background-image: url('https://via.placeholder.com/64');">
+        <span>{{{user_initials}}}</span>
     </span>
     {{/if}}
     <div>
-        <div class="font-semibold">{{{user_fullname}}}</div>
-        <div class="text-sm text-gray-400">
-            <a href="/users/{{{username}}}" class="hover:underline font-bold">@{{{username}}}</a>
+        <div>{{{user_fullname}}}</div>
+        <div>
+            <a href="/users/{{{username}}}">@{{{username}}}</a>
         </div>
     </div>
 </div>
-<p class="text-gray-400 mb-4">{{{post_description}}}</p>
+<p>{{{post_description}}}</p>
 {{#if post_images}}
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-auto gap-4 mt-4">
+<div>
     {{#each post_images as |image|}}
     <div>
-        <img src="{{{image}}}" alt="Image from post {{{post_title}}}"
-            class="w-full h-auto object-cover rounded-lg cursor-pointer" data-image="{{{image}}}"
+        <img src="{{{image}}}" alt="Image from post {{{post_title}}}" data-image="{{{image}}}"
             onclick="openImage(this)" role="button" tabindex="0">
     </div>
     {{/each}}
 </div>
-<div id="imageModal" class="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50 hidden"
-    style="z-index: 9999;" onclick="closeImage(event)">
-    <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-        <img id="modalImage" alt=""
-            class="rounded-lg cursor-pointer" onclick="toggleZoom()">
+<div id="imageModal" style="z-index: 9999;" onclick="closeImage(event)">
+    <div>
+        <img id="modalImage" alt="" onclick="toggleZoom()">
     </div>
 </div>
 <script>
