@@ -1,0 +1,13 @@
+#registrationFormDiv {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    margin: 0 auto;
+    background-color: var(--surface);
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+#registrationFormDiv form div:not(:last-child) {
+    margin-bottom: 10px;
+}

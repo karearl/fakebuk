@@ -1,8 +1,36 @@
 # fakebuk.com
 
+# Setup
+
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/karearl/fakebuk.git
+    ```
+2. Navigate to the project directory:
+    ```sh
+    cd fakebuk
+    ```
+3. Create a `.env` file and add the following environment variables:
+    ```env
+    MYSQL_ROOT_PASSWORD=mysql_root_password
+    MYSQL_DATABASE=mysql_database
+    MYSQL_USER=mysql_user
+    JWT_SECRET=jwt_secret
+    ```
+4. Set up a MySQL server.
+5. Install the project dependencies:
+    ```sh
+    npm install
+    ```
+6. Run the development server:
+    ```sh
+    npm run dev
+    ```
+
 ## Features
 
 - [x] User registration and authentication
+    - [ ] Change current auth implementaion to use Clerk
 - [ ] Profile customization
     - [x] Add ability to change profile picture
     - [ ] Add ability to edit user bio

@@ -1,0 +1,27 @@
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--primary);
+    border-radius: 4px;
+    font-size: 1rem;
+    color: var(--on-primary);
+    background-color: var(--background);
+}
+
+input,
+select {
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Add transition for a smooth effect */
+}
+
+input:hover,
+select:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Add shadow on hover */
+    transform: scale(1.02); /* Slightly increase size on hover */
+}
+
+input:focus,
+select:focus {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Add a stronger shadow when the input is focused */
+    outline: none; /* Remove the default browser outline */
+}

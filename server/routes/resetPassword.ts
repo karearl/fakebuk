@@ -1,28 +1,27 @@
 import { getUserByEmail } from "../services/user.service";
-import { compileTemplate, getCommonTemplates, registerPartials } from "../templateUtils";
+import { compileTemplate, getCommonTemplates, getCss, registerPartials } from "../templateUtils";
 import { forgotPasswordRoute } from "./forgotPassword";
 import { homeRoute } from "./home";
 
-const RESET_PASSWORD_PARTIALS = ['resetPasswordFormDiv'];
 const TITLE = 'fakebuk - reset password';
 
 export async function resetPasswordRoute(_: Request): Promise<Response> {
-    const templates = getCommonTemplates();
-    const partials = registerPartials(RESET_PASSWORD_PARTIALS);
-    const resetPasswordFormTemplate = compileTemplate('../client/templates/forms/resetPasswordForm.hbs');
-    const resetPasswordTemplate = compileTemplate('../client/templates/scripts/resetPassword.hbs');
-    
+    const partials = registerPartials();
+    const resetFormCss = await getCss([{ folder: 'components/resetPassword', file: 'resetPassword' }]);
+
+
     const templateData = {
-        _meta_: templates.metaTemplate({}),
-        _link_: templates.linkTemplate({}),
-        _title_: TITLE, 
-        _style_: templates.styleTemplate(partials),
-        _body_: resetPasswordFormTemplate({}),
-        _footer_: partials['footer'], 
-        _script_: resetPasswordTemplate({})
+        _meta_: getCommonTemplates().metaTemplate({}),
+        _link_: getCommonTemplates().linkTemplate({}),
+        _title_: TITLE,
+        _style_: resetFormCss,
+        _body_: compileTemplate('../client/components/forms/resetPasswordForm.hbs')({}) +
+        compileTemplate('../client/scripts/resetPassword.hbs')({}),
+        _footer_: partials['footer'],
+        _script_: null
     };
-    
-    const html = templates.layoutTemplate(templateData);
+
+    const html = getCommonTemplates().layoutTemplate(templateData);
 
     return new Response(html, { headers: { "Content-Type": "text/html" }, status: 200});
 }

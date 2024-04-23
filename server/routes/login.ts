@@ -1,24 +1,22 @@
-import { compileTemplate, getCommonTemplates, registerPartials } from "../templateUtils";
+import { compileTemplate, getCommonTemplates, registerPartials, getCss } from "../templateUtils";
 
-const LOGIN_PAGE_PARTIALS = ['loginFormDiv'];
 const TITLE = 'fakebuk - login or sign up';
 
-export const loginRoute = (_: Request) => {
-    const templates = getCommonTemplates();
-    const partials = registerPartials(LOGIN_PAGE_PARTIALS);
-    const loginFormTemplate = compileTemplate('../client/templates/forms/loginForm.hbs');
+export const loginRoute = async (_: Request) => {
+    const partials = registerPartials();
+    const loginFormCss = await getCss([{ folder: 'components/login', file: 'login' }]);
 
     const templateData = {
-        _meta_: templates.metaTemplate({}),
-        _link_: templates.linkTemplate({}),
-        _title_: TITLE, 
-        _style_: templates.styleTemplate(partials),
-        _body_: loginFormTemplate({}),
-        _footer_: partials['footer'], 
+        _meta_: getCommonTemplates().metaTemplate({}),
+        _link_: getCommonTemplates().linkTemplate({}),
+        _title_: TITLE,
+        _style_: loginFormCss,
+        _body_: compileTemplate('../client/components/login/loginForm.hbs')({}),
+        _footer_: partials['footer'],
         _script_: null
     };
-    
-    const html = templates.layoutTemplate(templateData);
 
-    return new Response(html, { headers: { "Content-Type": "text/html" }, status: 200});
+    const html = getCommonTemplates().layoutTemplate(templateData);
+
+    return new Response(html, { headers: { "Content-Type": "text/html" }, status: 200 });
 }

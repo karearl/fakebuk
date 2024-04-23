@@ -1,0 +1,7 @@
+header {
+    background-color: var(--surface);
+    color: var(--on-surface);
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+}

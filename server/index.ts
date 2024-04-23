@@ -15,31 +15,14 @@ import { resetPasswordRoute, resetPasswordRouteHandler } from "./routes/resetPas
 import { resetPasswordPostRoute } from './routes/resetPasswordPost';
 import { updateProfilePicturePostRoute } from './routes/updateProfilePicturePost';
 import { usersRoute } from './routes/users';
-import { readFile } from 'fs/promises';
-import path from 'path';
 
 require('dotenv').config();
-
 setupDatabase().then(() => console.log("Database setup complete")).catch((err) => { console.error(err); });
-
 
 export const server = Bun.serve({
     async fetch(req: Request) {
         const url: URL = new URL(req.url);
         const filePath = url.pathname;
-
-        if (filePath.startsWith("/css/")) {
-            try {
-                const file = await readFile(path.join(__dirname, '../client', filePath));
-                return new Response(file, {
-                    headers: { 'Content-Type': 'text/css' },
-                });
-            } catch (err) {
-                console.error(err);
-                return new Response('Not Found', { status: 404 });
-            }
-        }
-
 
         if (req.method === "GET") {
             if (filePath === "/") return homeRoute(req)

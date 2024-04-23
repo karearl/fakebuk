@@ -6,7 +6,7 @@ import { getAllPosts, getPostsForUser } from "../services/post.service";
 import { getUserById, getUserByUsername } from "../services/user.service";
 import { compileTemplate, getCommonTemplates, registerPartials } from "../templateUtils";
 
-const PROFILE_PARTIALS = ['loginFormDiv']; //! update to correct partials for profile page
+const PROFILE_PARTIALS = [{ folder: 'login', file: 'loginForm'}]; //! update to correct partials for profile page
 const TITLE = 'fakebuk - profile';
 
 const buttons = [
@@ -14,19 +14,19 @@ const buttons = [
     { icon: 'message-circle', label: 'Comment', path: 'm3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z' },
     { icon: 'bookmark', label: 'Save', path: 'm19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z' },
 ];
-const postHeaderTemplate = compileTemplate('../client/templates/post/postHeader.hbs');
-const newPostFormTemplate = compileTemplate('../client/templates/forms/newPostForm.hbs');
-const postactionsTemplate = compileTemplate('../client/templates/post/postActions.hbs');
-const commentTemplate = compileTemplate('../client/templates/post/comment.hbs');
-const commentFormTemplate = compileTemplate('../client/templates/post/commentForm.hbs');
-const postTemplate = compileTemplate('../client/templates/post/post.hbs');
-const profileInfoTemplate = compileTemplate('../client/templates/user/profileInfo.hbs');
-const updateProfilePictureTemplate = compileTemplate('../client/templates/scripts/updateProfilePicture.hbs');
+const postHeaderTemplate = compileTemplate('../client/components/post/postHeader.hbs');
+const newPostFormTemplate = compileTemplate('../client/components/forms/newPostForm.hbs');
+const postactionsTemplate = compileTemplate('../client/components/post/postActions.hbs');
+const commentTemplate = compileTemplate('../client/components/comment/comment.hbs');
+const commentFormTemplate = compileTemplate('../client/components/comment/commentForm.hbs');
+const postTemplate = compileTemplate('../client/components/post/post.hbs');
+const profileInfoTemplate = compileTemplate('../client/components/profile/profileInfo.hbs');
+const updateProfilePictureTemplate = compileTemplate('../client/scripts/updateProfilePicture.hbs');
 
 export async function profileRoute(req: Request): Promise<Response> {
     const templates = getCommonTemplates();
     const partials = registerPartials(PROFILE_PARTIALS);
-    const profileTemplate = compileTemplate('../client/templates/user/profile.hbs');
+    const profileTemplate = compileTemplate('../client/components/profile/profile.hbs');
 
     //#region user
     let username = req.url.split('/')[4];

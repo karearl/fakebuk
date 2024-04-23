@@ -1,5 +1,6 @@
 /* Block: button */
-button {
+button,
+.form-button {
     background-color: var(--primary);
     color: var(--on-primary);
     border: none;
@@ -11,14 +12,17 @@ button {
     transition: background-color 0.3s ease, transform 0.3s ease;
     outline: none;
     box-shadow: none;
+    width: 100%;
 }
 
-button:hover {
+button:hover,
+.form-button:hover {
     background-color: var(--secondary);
     transform: translateY(-3px);
 }
 
-button:active {
+button:active,
+.form-button:active {
     background-color: var(--accent);
     transform: translateY(1px);
 }
